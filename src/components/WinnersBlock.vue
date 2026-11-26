@@ -29,19 +29,18 @@ const isNewWinnerDisabled = computed(() => {
 </script>
 
 <template>
-  <div class="card mb-4">
+  <div class="card winners-card">
     <div class="card-body">
-      <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
-        <div class="d-flex flex-wrap align-items-center gap-2 flex-grow-1">
-          <span v-if="winners.length === 0" class="text-muted fst-italic">
-            Winners
-          </span>
+      <div class="d-flex align-items-center justify-content-between gap-3">
+        <!-- Display box with border matching input style -->
+        <div class="winners-display flex-grow-1 d-flex align-items-center gap-2 flex-wrap">
           <WinnerBadge
             v-for="winner in winners"
             :key="winner.id"
             :winner="winner"
             @remove="emit('remove-winner', $event)"
           />
+          <span class="placeholder-text">Winners</span>
         </div>
         <div>
           <BaseButton
@@ -56,3 +55,23 @@ const isNewWinnerDisabled = computed(() => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.winners-card .card-body {
+  padding: 1.25rem 1.5rem;
+}
+
+.winners-display {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 3px;
+  padding: 0.4rem 0.75rem;
+  min-height: 38px;
+}
+
+.placeholder-text {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  user-select: none;
+}
+</style>

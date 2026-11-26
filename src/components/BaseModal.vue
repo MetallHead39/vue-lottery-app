@@ -37,7 +37,7 @@ onUnmounted(() => {
         @click.self="emit('close')"
       >
         <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content shadow">
+          <div class="modal-content">
             <div class="modal-header">
               <slot name="header">
                 <h5 class="modal-title">{{ title }}</h5>
@@ -64,8 +64,37 @@ onUnmounted(() => {
 
 <style scoped>
 .modal-backdrop-custom {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.45);
   overflow-y: auto;
+}
+
+.modal-content {
+  border-radius: 3px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.modal-header {
+  border-bottom: 1px solid #f3f4f6;
+  padding: 1rem 1.25rem;
+}
+
+.modal-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.modal-body {
+  padding: 1.25rem;
+}
+
+.modal-footer {
+  border-top: 1px solid #f3f4f6;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
 }
 
 .modal-fade-enter-active,
@@ -85,6 +114,6 @@ onUnmounted(() => {
 
 .modal-fade-enter-from .modal-dialog,
 .modal-fade-leave-to .modal-dialog {
-  transform: translateY(-20px);
+  transform: translateY(-15px);
 }
 </style>

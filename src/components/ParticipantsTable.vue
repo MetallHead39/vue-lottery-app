@@ -32,7 +32,6 @@ function toggleSort(field: 'name' | 'dob') {
     if (sortOrder.value === 'asc') {
       sortOrder.value = 'desc'
     } else {
-      // Toggle back to asc or cycle
       sortField.value = null
       sortOrder.value = 'asc'
     }
@@ -165,7 +164,6 @@ const editErrors = computed(() => {
     errs.email = 'Please enter a valid email address.'
   } else {
     const normalizedEmail = editForm.email.trim().toLowerCase()
-    // Duplicate check, excluding current participant
     const isDuplicate = props.participants.some(
       (p) => p.id !== editParticipantId.value && p.email.trim().toLowerCase() === normalizedEmail,
     )
@@ -231,57 +229,57 @@ function handleUpdateSubmit() {
 </script>
 
 <template>
-  <div class="card">
+  <div class="card table-card">
     <div class="card-body">
-      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3 gap-2">
-        <h2 class="h5 card-title fw-bold mb-0">Учасники лотереї</h2>
+      <!-- Search & Controls row -->
+      <div class="d-flex flex-column flex-sm-row justify-content-end align-items-sm-center mb-3">
         <SearchBar @filter-by-name="handleFilterByName" />
       </div>
 
-      <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-          <thead class="table-light">
+      <div class="table-container">
+        <table class="participants-table">
+          <thead>
             <tr>
-              <th scope="col" style="width: 50px">#</th>
-              <th scope="col" class="cursor-pointer user-select-none" @click="toggleSort('name')">
-                <div class="d-inline-flex align-items-center gap-1">
+              <th class="col-num">#</th>
+              <th class="col-sortable user-select-none" @click="toggleSort('name')">
+                <div class="th-content">
                   <span>Name</span>
-                  <span v-if="sortField === 'name'" class="text-primary">
+                  <span v-if="sortField === 'name'" class="sort-icon active">
                     <span v-if="sortOrder === 'asc'">▲</span>
                     <span v-else>▼</span>
                   </span>
-                  <span v-else class="text-muted opacity-50">⇅</span>
+                  <span v-else class="sort-icon">⇅</span>
                 </div>
               </th>
-              <th scope="col" class="cursor-pointer user-select-none" @click="toggleSort('dob')">
-                <div class="d-inline-flex align-items-center gap-1">
+              <th class="col-sortable user-select-none" @click="toggleSort('dob')">
+                <div class="th-content">
                   <span>Date of Birth</span>
-                  <span v-if="sortField === 'dob'" class="text-primary">
+                  <span v-if="sortField === 'dob'" class="sort-icon active">
                     <span v-if="sortOrder === 'asc'">▲</span>
                     <span v-else>▼</span>
                   </span>
-                  <span v-else class="text-muted opacity-50">⇅</span>
+                  <span v-else class="sort-icon">⇅</span>
                 </div>
               </th>
-              <th scope="col">Email</th>
-              <th scope="col">Phone number</th>
-              <th scope="col" class="text-end" style="min-width: 220px">Дії</th>
+              <th>Email</th>
+              <th>Phone number</th>
+              <th class="col-actions text-end"></th>
             </tr>
           </thead>
           <tbody>
             <tr v-if="processedParticipants.length === 0">
-              <td colspan="6" class="text-center py-4 text-muted">
+              <td colspan="6" class="empty-state text-center">
                 {{ participants.length === 0 ? 'Список учасників порожній.' : 'Учасників за даним запитом не знайдено.' }}
               </td>
             </tr>
             <tr v-for="(participant, index) in processedParticipants" :key="participant.id">
-              <th scope="row">{{ index + 1 }}</th>
-              <td class="fw-medium">{{ participant.name }}</td>
+              <td class="col-num">{{ index + 1 }}</td>
+              <td class="col-name">{{ participant.name }}</td>
               <td>{{ participant.dob }}</td>
               <td>{{ participant.email }}</td>
               <td>{{ participant.phone }}</td>
-              <td class="text-end">
-                <div class="btn-group btn-group-sm">
+              <td class="col-actions text-end">
+                <div class="actions-group">
                   <BaseButton
                     variant="outline-primary"
                     title="Редагувати дані"
@@ -310,6 +308,7 @@ function handleUpdateSubmit() {
         <BaseInput
           v-model="editForm.name"
           label="Name"
+          placeholder="Enter user name"
           required
           :error-message="getEditErrorMessage('name')"
           :is-valid="getEditIsValid('name')"
@@ -320,6 +319,7 @@ function handleUpdateSubmit() {
           v-model="editForm.dob"
           type="date"
           label="Date of Birth"
+          placeholder="mm/dd/yyyy"
           required
           :error-message="getEditErrorMessage('dob')"
           :is-valid="getEditIsValid('dob')"
@@ -330,6 +330,7 @@ function handleUpdateSubmit() {
           v-model="editForm.email"
           type="email"
           label="Email"
+          placeholder="Enter email"
           required
           :error-message="getEditErrorMessage('email')"
           :is-valid="getEditIsValid('email')"
@@ -340,6 +341,7 @@ function handleUpdateSubmit() {
           v-model="editForm.phone"
           type="tel"
           label="Phone number"
+          placeholder="Enter Phone number"
           required
           :error-message="getEditErrorMessage('phone')"
           :is-valid="getEditIsValid('phone')"
@@ -359,7 +361,7 @@ function handleUpdateSubmit() {
 
     <!-- Delete Confirmation Modal -->
     <BaseModal :show="isDeleteModalOpen" title="Підтвердження видалення" @close="closeDeleteModal">
-      <p class="mb-0">
+      <p class="mb-0 text-dark">
         Ви дійсно бажаєте видалити учасника "{{ participantToDelete?.name }}", "{{ participantToDelete?.email }}"?
       </p>
       <template #footer>
@@ -375,7 +377,89 @@ function handleUpdateSubmit() {
 </template>
 
 <style scoped>
-.cursor-pointer {
+.table-card .card-body {
+  padding: 1.25rem 1.5rem;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.participants-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.participants-table th {
+  padding: 0.75rem 0.6rem;
+  color: #1f2937;
+  font-weight: 700;
+  border-bottom: 1px solid #f3f4f6;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.participants-table td {
+  padding: 0.75rem 0.6rem;
+  color: #4b5563;
+  border-bottom: 1px solid #f9fafb;
+  vertical-align: middle;
+}
+
+.participants-table tr:hover td {
+  background-color: #fafbfc;
+}
+
+.col-num {
+  width: 40px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.col-name {
+  color: #1f2937;
+  font-weight: 500;
+}
+
+.col-sortable {
   cursor: pointer;
+}
+
+.th-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.sort-icon {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.sort-icon.active {
+  color: #00a8e8;
+  font-weight: bold;
+}
+
+.col-actions {
+  min-width: 200px;
+}
+
+.actions-group {
+  display: inline-flex;
+  gap: 0.4rem;
+  justify-content: flex-end;
+}
+
+.actions-group :deep(.custom-btn) {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.775rem;
+}
+
+.empty-state {
+  padding: 2rem 0;
+  color: #9ca3af;
+  font-style: italic;
 }
 </style>

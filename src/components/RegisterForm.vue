@@ -139,65 +139,56 @@ function handleSubmit() {
 </script>
 
 <template>
-  <div class="card mb-4">
+  <div class="card register-card">
     <div class="card-body">
-      <h2 class="h5 card-title fw-bold text-uppercase mb-1">Register Form</h2>
-      <p class="card-subtitle text-muted mb-4">Please fill in all the fields.</p>
+      <h2 class="form-title">REGISTER FORM</h2>
+      <p class="form-subtitle">Please fill in all the fields.</p>
 
       <form @submit.prevent="handleSubmit" @keydown.enter.prevent="handleSubmit">
-        <div class="row g-3">
-          <div class="col-12 col-md-6">
-            <BaseInput
-              v-model="form.name"
-              label="Name"
-              placeholder="Enter name"
-              required
-              :error-message="getErrorMessage('name')"
-              :is-valid="getIsValid('name')"
-              @blur="touched.name = true"
-            />
-          </div>
+        <BaseInput
+          v-model="form.name"
+          label="Name"
+          placeholder="Enter user name"
+          required
+          :error-message="getErrorMessage('name')"
+          :is-valid="getIsValid('name')"
+          @blur="touched.name = true"
+        />
 
-          <div class="col-12 col-md-6">
-            <BaseInput
-              v-model="form.dob"
-              type="date"
-              label="Date of Birth"
-              required
-              :error-message="getErrorMessage('dob')"
-              :is-valid="getIsValid('dob')"
-              @blur="touched.dob = true"
-            />
-          </div>
+        <BaseInput
+          v-model="form.dob"
+          type="date"
+          label="Date of Birth"
+          placeholder="mm/dd/yyyy"
+          required
+          :error-message="getErrorMessage('dob')"
+          :is-valid="getIsValid('dob')"
+          @blur="touched.dob = true"
+        />
 
-          <div class="col-12 col-md-6">
-            <BaseInput
-              v-model="form.email"
-              type="email"
-              label="Email"
-              placeholder="example@mail.com"
-              required
-              :error-message="getErrorMessage('email')"
-              :is-valid="getIsValid('email')"
-              @blur="touched.email = true"
-            />
-          </div>
+        <BaseInput
+          v-model="form.email"
+          type="email"
+          label="Email"
+          placeholder="Enter email"
+          required
+          :error-message="getErrorMessage('email')"
+          :is-valid="getIsValid('email')"
+          @blur="touched.email = true"
+        />
 
-          <div class="col-12 col-md-6">
-            <BaseInput
-              v-model="form.phone"
-              type="tel"
-              label="Phone number"
-              placeholder="+380XXXXXXXXX"
-              required
-              :error-message="getErrorMessage('phone')"
-              :is-valid="getIsValid('phone')"
-              @blur="touched.phone = true"
-            />
-          </div>
-        </div>
+        <BaseInput
+          v-model="form.phone"
+          type="tel"
+          label="Phone number"
+          placeholder="Enter Phone number"
+          required
+          :error-message="getErrorMessage('phone')"
+          :is-valid="getIsValid('phone')"
+          @blur="touched.phone = true"
+        />
 
-        <div class="d-flex justify-content-end mt-3">
+        <div class="d-flex justify-content-end mt-4">
           <BaseButton type="submit" variant="primary">
             Save
           </BaseButton>
@@ -206,3 +197,23 @@ function handleSubmit() {
     </div>
   </div>
 </template>
+
+<style scoped>
+.register-card .card-body {
+  padding: 1.5rem 1.75rem;
+}
+
+.form-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1f2937;
+  letter-spacing: 0.025em;
+  margin-bottom: 0.25rem;
+}
+
+.form-subtitle {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin-bottom: 1.25rem;
+}
+</style>

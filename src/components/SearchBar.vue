@@ -44,17 +44,17 @@ watch(searchQuery, (newVal) => {
 
 <template>
   <div class="search-bar">
-    <div class="input-group">
+    <div class="search-input-container">
       <input
         v-model="searchQuery"
         type="text"
-        class="form-control"
+        class="search-input"
         :placeholder="placeholder"
         aria-label="Search by name"
       />
       <button
         v-if="searchQuery"
-        class="btn btn-outline-secondary"
+        class="clear-btn"
         type="button"
         title="Очистити"
         @click="searchQuery = ''"
@@ -67,7 +67,46 @@ watch(searchQuery, (newVal) => {
 
 <style scoped>
 .search-bar {
-  max-width: 350px;
+  max-width: 260px;
   width: 100%;
+}
+
+.search-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 100%;
+  height: 32px;
+  padding: 0.25rem 1.75rem 0.25rem 0.65rem;
+  font-size: 0.8rem;
+  color: #1f2937;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 3px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.search-input:focus {
+  border-color: #00a8e8;
+}
+
+.clear-btn {
+  position: absolute;
+  right: 0.5rem;
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.clear-btn:hover {
+  color: #4b5563;
 }
 </style>

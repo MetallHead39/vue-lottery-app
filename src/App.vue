@@ -118,37 +118,46 @@ function handleRemoveWinner(id: string) {
 </script>
 
 <template>
-  <main class="container py-4 py-md-5">
-    <header class="text-center mb-4">
-      <h1 class="display-6 fw-bold text-primary mb-1">Lottery App</h1>
-      <p class="text-muted">Лаб.#4/Vue</p>
-    </header>
+  <div class="app-layout">
+    <main class="app-container">
+      <!-- 1. Winners Block -->
+      <WinnersBlock
+        :winners="winners"
+        :participants="participants"
+        @select-winner="handleSelectWinner"
+        @remove-winner="handleRemoveWinner"
+      />
 
-    <!-- 1. Winners Block -->
-    <WinnersBlock
-      :winners="winners"
-      :participants="participants"
-      @select-winner="handleSelectWinner"
-      @remove-winner="handleRemoveWinner"
-    />
+      <!-- 2. Register Form -->
+      <RegisterForm
+        :existing-emails="existingEmails"
+        @add-participant="handleAddParticipant"
+      />
 
-    <!-- 2. Register Form -->
-    <RegisterForm
-      :existing-emails="existingEmails"
-      @add-participant="handleAddParticipant"
-    />
-
-    <!-- 3. Participants Table -->
-    <ParticipantsTable
-      :participants="participants"
-      @update-participant="handleUpdateParticipant"
-      @delete-participant="handleDeleteParticipant"
-    />
-  </main>
+      <!-- 3. Participants Table -->
+      <ParticipantsTable
+        :participants="participants"
+        @update-participant="handleUpdateParticipant"
+        @delete-participant="handleDeleteParticipant"
+      />
+    </main>
+  </div>
 </template>
 
 <style scoped>
-main {
-  max-width: 980px;
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem 1rem;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 </style>
