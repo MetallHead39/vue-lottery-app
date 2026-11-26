@@ -1,20 +1,38 @@
 // Configuration
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
 @import "bootstrap/scss/maps";
 @import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
 
 // Layout & components
 @import "bootstrap/scss/root";
 @import "bootstrap/scss/reboot";
 @import "bootstrap/scss/type";
+@import "bootstrap/scss/images";
 @import "bootstrap/scss/containers";
 @import "bootstrap/scss/grid";
 @import "bootstrap/scss/tables";
 @import "bootstrap/scss/forms";
 @import "bootstrap/scss/buttons";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/button-group";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/navbar";
+@import "bootstrap/scss/card";
+@import "bootstrap/scss/pagination";
+@import "bootstrap/scss/badge";
+@import "bootstrap/scss/alert";
+@import "bootstrap/scss/close";
 @import "bootstrap/scss/modal";
-@import "bootstrap/scss/utilities";
+@import "bootstrap/scss/spinners";
+
+// Helpers
+@import "bootstrap/scss/helpers";
+
+// Utilities API (generates d-flex, gap-*, p-*, m-*, shadow, rounded, etc.)
+@import "bootstrap/scss/utilities/api";
 
 :root {
   --primary-accent: #00a8e8;
@@ -39,6 +57,27 @@ body {
 .card {
   background-color: #ffffff;
   border: 1px solid var(--border-color);
-  border-radius: 3px;
-  box-shadow: none;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary {
+  background-color: var(--primary-accent);
+  border-color: var(--primary-accent);
+
+  &:hover, &:focus, &:active {
+    background-color: var(--primary-accent-hover) !important;
+    border-color: var(--primary-accent-hover) !important;
+  }
+}
+
+.btn-outline-primary {
+  color: var(--primary-accent);
+  border-color: var(--primary-accent);
+
+  &:hover, &:focus, &:active {
+    background-color: var(--primary-accent) !important;
+    border-color: var(--primary-accent) !important;
+    color: #ffffff !important;
+  }
 }
